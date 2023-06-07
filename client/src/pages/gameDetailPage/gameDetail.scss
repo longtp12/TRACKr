@@ -1,0 +1,162 @@
+.bodyWrapper {
+    // position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: rgba(21, 21, 21, 0.9);
+    .bodyContent {
+        // display: flex;
+        background-color: #151515;
+        width: 70vw;
+        margin-top: 30px;
+        margin-bottom: 30px;
+        border: 2px solid #9747ff;
+        border-radius: 3px;
+        .details {
+            // display: flex;
+            padding: 50px 55px;
+
+            .info {
+                display: flex;
+                justify-content: space-between;
+                border-bottom: 3px solid gray;
+                .infoWrapper {
+                    h1 {
+                        margin: 0;
+                        font-size: 70px;
+                    }
+                    .sub {
+                        display: flex;
+                        margin-top: 10px;
+                        .releaseDate {
+                            border-radius: 5px;
+                            color: black;
+                            background-color: white;
+                            font-size: 20px;
+                            letter-spacing: 5px;
+                            font-style: italic;
+                            display: inline-block;
+                            padding: 5px;
+                            font-weight: 500;
+                        }
+                        .platforms {
+                            display: flex;
+                            margin-left: 20px;
+                            img {
+                                opacity: 1;
+                                height: 30px;
+                                margin-left: 20px;
+                            }
+                        }
+                    }
+
+                    .lowerLeft {
+                        display: flex;
+                        justify-content: space-between;
+                        .additionalInfo {
+                            flex: 3;
+                            display: flex;
+                            .left {
+                                flex: 1;
+                                // width: 50%;
+
+                                .infoItem {
+                                    margin-bottom: 50px;
+                                    font-weight: 100;
+
+                                    div {
+                                        display: inline-block;
+                                        margin-top: 2px;
+                                        margin-right: 9px;
+                                        font-weight: 500;
+                                        text-decoration: underline;
+                                        cursor: pointer;
+                                    }
+                                }
+                            }
+                            .right {
+                                flex: 1;
+                                .metaScore {
+                                    margin-bottom: 26px;
+                                    font-weight: 100;
+                                    display: inline-block;
+                                    .score {
+                                        margin-top: 3px;
+                                        display: inline-block;
+                                        padding: 10px;
+                                        border: 3px solid #14ae5c;
+                                        color: #14ae5c;
+                                        font-weight: 900;
+                                        cursor: pointer;
+                                    }
+                                }
+                                .infoItem {
+                                    margin-top: 26px;
+                                    margin-bottom: 50px;
+                                    font-weight: 100;
+                                    div {
+                                        display: flex;
+                                        margin-top: 2px;
+                                        display: inline-block;
+                                        margin-right: 9px;
+                                        font-weight: 500;
+                                        text-decoration: underline;
+                                        cursor: pointer;
+                                    }
+                                }
+                            }
+                        }
+                        .actions {
+                            flex: 2;
+                            margin-top: 5px;
+                            .actionBtn {
+                                display: flex;
+                                justify-content: space-between;
+                                align-items: center;
+                                padding: 5px 15px;
+                                font-size: 15px;
+                                width: 190px;
+                                margin-bottom: 8px;
+                                cursor: pointer;
+                                transition: all 0.5s ease;
+                                border: none;
+                            }
+                            .actionBtn:hover {
+                                width: 100%;
+                            }
+                        }
+                    }
+                    .screenshots {
+                        flex: 2;
+                        // border-left: 1px solid red;
+                        display: flex;
+                        justify-content: center;
+                        // align-items: center;
+                        img {
+                            width: 100%;
+                            opacity: 1;
+                        }
+                    }
+                }
+
+                .description {
+                    border-bottom: 3px solid gray;
+                }
+            }
+        }
+        .gameCopiesTableContainer {
+            display: flex;
+            justify-content: center;
+            padding: 50px;
+            // padding-top: 0px;
+            overflow: hidden;
+            position: relative;
+            .gameCopiesTableWrapper {
+                transition: all 0.5s ease;
+            }
+        }
+    }
+}

@@ -1,0 +1,94 @@
+.navbarContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #151515;
+    padding: 10px;
+    color: #e6e6e6;
+    .left {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        .logoWrapper {
+            display: flex;
+            flex: 1;
+            margin-left: 15px;
+            cursor: pointer;
+            .logoLeft {
+                font-size: 23px;
+                font-weight: 900;
+                letter-spacing: 5px;
+                color: yellow;
+            }
+            .logoRight {
+                font-size: 23px;
+                font-weight: 900;
+                letter-spacing: 5px;
+                color: red;
+            }
+        }
+        .navBarItemWrapper {
+            flex: 1;
+            display: flex;
+            .navBarItem {
+                flex: 1;
+            }
+        }
+    }
+    .center {
+        flex: 1;
+        .searchBarWrapper {
+            border-radius: 15px;
+            background-color: #3b3b3b;
+            width: 30vw;
+            display: flex;
+            align-items: center;
+            transition: all 0.5s ease;
+
+            input::placeholder {
+                text-align: center;
+                position: relative;
+                transform: translateX(-50%);
+                left: 45%;
+            }
+            .searchIcon {
+                padding-left: 5px;
+            }
+            .searchBar {
+                // font-size: 15px;
+                background-color: transparent;
+                color: #3b3b3b;
+                border: none;
+                height: 30px;
+                padding: 5px;
+                width: 31vw;
+            }
+            .searchBar:focus {
+                outline: none;
+            }
+        }
+        .searchBarWrapper:focus-within {
+            background-color: #e6e6e6;
+            color: black;
+            transform: scale(1.1);
+        }
+        .searchBarWrapper:hover {
+            background-color: #e6e6e6;
+            color: black;
+            transform: scale(1.1);
+        }
+    }
+    .right {
+        flex: 1;
+        .navBarItemWrapper {
+            display: flex;
+            align-items: center;
+            justify-content: right;
+
+            .navBarItem {
+                margin-right: 30px;
+                font-size: 30px;
+            }
+        }
+    }
+}
