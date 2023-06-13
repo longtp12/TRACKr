@@ -142,7 +142,8 @@ const scrapeOneUrlType1Cheerio = async (
     });
     if (duplicateFound) return scrapedGames;
 
-    await uploadToDB(gameDataArr);
+    // await uploadToDB(gameDataArr);
+    await uploadToDBAnyway(gameDataArr);
 
     pageCounter++;
     store.nextPageUrl.splice(1, 1, pageCounter);
@@ -190,6 +191,29 @@ export const uploadToDB = async (gameData) => {
           console.log("No changes on " + gameCopy.title);
           continue;
         }
+      } else if (!existedGame) {
+        await request.post("/gameCopy", { gameCopies: gameCopy });
+        console.log("Uploaded " + gameCopy.title);
+      }
+    }
+  } catch (err) {
+    console.error(err);
+  }
+};
+export const uploadToDBAnyway = async (gameData) => {
+  try {
+    for (const gameCopy of gameData) {
+      const response = await request.post("/gameCopy/search/detail", {
+        title: gameCopy.title,
+        storeName: gameCopy.storeName,
+        platform: gameCopy.platform,
+      });
+      const existedGame = response.data[0];
+      if (existedGame) {
+        await request.put(`/gameCopy/${existedGame._id}`, {
+          newPrice: gameCopy.retailPrice[0].price,
+        });
+        console.log("Updated Price on copy of " + gameCopy.title);
       } else if (!existedGame) {
         await request.post("/gameCopy", { gameCopies: gameCopy });
         console.log("Uploaded " + gameCopy.title);

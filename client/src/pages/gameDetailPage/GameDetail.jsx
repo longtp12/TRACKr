@@ -10,9 +10,10 @@ import {
 } from "@mui/icons-material";
 import { GameCopiesDataGrid } from "../../components/gameCopiesDataGrid/GameCopiesDataGrid";
 import { DetailCarousel } from "../../components/detailCarousel/DetailCarousel";
-import { publicRequest } from "../../requestMethods";
+import { publicRequest } from "../../utils/requestMethods";
 import styled from "styled-components";
 import { formatReleaseDate } from "../../utils/formatStrings";
+import { GameCopiesDataGridRaw } from "../../components/gameCopiesDataGrid/GameCopiesDataGridRaw";
 
 const DetailContainer = styled.div`
   background-color: #151515;
@@ -44,20 +45,6 @@ const GameDetail = () => {
   }, [slug]);
 
   // GET GAME COPIES
-  useEffect(() => {
-    const getGameCopies = async () => {
-      try {
-        const response = await publicRequest.post("/gameCopy/search", {
-          title: gameDetail.title,
-        });
-
-        setGameCopies(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getGameCopies();
-  }, [gameDetail]);
 
   //  FILTER HTML OF DESCRIPTION
   const filterHTML = (html) => {
@@ -92,13 +79,13 @@ const GameDetail = () => {
                           {formatReleaseDate(gameDetail.releaseDate)}
                         </div>
                         <div className="platforms">
-                          {gameDetail.platforms.map((platform) => {
+                          {gameDetail.platforms.map((platform, index) => {
                             if (platform === "PlayStation")
-                              return <img src={platformIcons.playstation} />;
+                              return <img key={index} src={platformIcons.playstation} />;
                             if (platform === "Xbox")
-                              return <img src={platformIcons.xbox} />;
+                              return <img key={index} src={platformIcons.xbox} />;
                             if (platform === "Nintendo")
-                              return <img src={platformIcons.switch} />;
+                              return <img key={index} src={platformIcons.switch} />;
                           })}
                         </div>
                       </div>
@@ -190,7 +177,7 @@ const GameDetail = () => {
                 </div>
                 <div className="gameCopiesTableContainer">
                   <div className="gameCopiesTableWrapper">
-                    <GameCopiesDataGrid gameCopies={gameCopies} />
+                    <GameCopiesDataGridRaw title={gameDetail.title}/>
                   </div>
                 </div>
               </div>

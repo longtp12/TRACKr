@@ -3,7 +3,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./carousel.scss";
-import { publicRequest } from "../../requestMethods";
+import { publicRequest } from "../../utils/requestMethods";
 import { Link } from "react-router-dom";
 import { platformIcons } from "../../utils/platformIcons";
 import { formatReleaseDate } from "../../utils/formatStrings";

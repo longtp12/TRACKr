@@ -18,7 +18,7 @@ export const updatePrice = async (req, res) => {
     const newPrice = req.body.newPrice;
     retailPrice.unshift({ price: newPrice });
     await gameCopy.save();
-    res.status(200).json(gameCopy)
+    res.status(200).json(gameCopy);
   } catch (error) {
     res.status(500).json(error);
   }
@@ -26,13 +26,18 @@ export const updatePrice = async (req, res) => {
 
 export const searchGameCopiesByName = async (req, res) => {
   const { title } = req.body;
+  const page = parseInt(req.query.page);
+  const gameCopiesPerPage = parseInt(req.query.gameCopiesPerPage);
   try {
+    const skipCount = (page - 1) * gameCopiesPerPage;
     const escapedTitle = escapeRegex(title);
     const regexPattern = new RegExp(escapedTitle.replace(/:/g, ":?"), "i");
 
     const gameCopies = await GameCopy.find({
       title: { $regex: regexPattern },
-    });
+    })
+      .skip(skipCount)
+      .limit(gameCopiesPerPage);
 
     res.status(200).json(gameCopies);
   } catch (error) {
@@ -63,7 +68,7 @@ export const searchGameCopiesDetails = async (req, res) => {
     const gameCopies = await GameCopy.find({
       title: { $regex: regexPattern },
       storeName,
-      platform
+      platform,
     });
 
     res.status(200).json(gameCopies);
@@ -105,6 +110,71 @@ export const deleteGameCopies = async (req, res) => {
       message: "Multiple game copies deleted successfully",
       deletedCount: result.deletedCount,
     });
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+export const filterPrice = async (req, res) => {
+  const { title } = req.body;
+  const condition = req.query.condition;
+
+  try {
+    const escapedTitle = escapeRegex(title);
+    const regexPattern = new RegExp(escapedTitle.replace(/:/g, ":?"), "i");
+
+    const gameCopies = await GameCopy.find({
+      title: { $regex: regexPattern },
+    });
+
+    if (condition === "under500") {
+      for (const gameCopy of gameCopies) {
+        if (
+          gameCopy &&
+          gameCopy.retailPrice.length > 0 &&
+          gameCopy.retailPrice[0].price <= 500000
+        ) {
+          return res.status(200).json({ message: true });
+        }
+      }
+      res.status(200).json({ message: false });
+    }
+    if (condition === "500-1M") {
+      for (const gameCopy of gameCopies) {
+        if (
+          gameCopy &&
+          gameCopy.retailPrice.length > 0 &&
+          500000 <= gameCopy.retailPrice[0].price <= 1000000
+        ) {
+          return res.status(200).json({ message: true });
+        }
+      }
+      res.status(200).json({ message: false });
+    }
+    if (condition === "1M-1M4") {
+      for (const gameCopy of gameCopies) {
+        if (
+          gameCopy &&
+          gameCopy.retailPrice.length > 0 &&
+          1000000 <= gameCopy.retailPrice[0].price <= 1400000
+        ) {
+          return res.status(200).json({ message: true });
+        }
+      }
+      res.status(200).json({ message: false });
+    }
+    if (condition === "over1M4") {
+      for (const gameCopy of gameCopies) {
+        if (
+          gameCopy &&
+          gameCopy.retailPrice.length > 0 &&
+          gameCopy.retailPrice[0].price >= 1400000
+        ) {
+          return res.status(200).json({ message: true });
+        }
+      }
+      res.status(200).json({ message: false });
+    }
   } catch (error) {
     res.status(500).json(error);
   }

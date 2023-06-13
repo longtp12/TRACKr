@@ -5,10 +5,32 @@ import {
   Search,
   ShoppingCart,
 } from "@mui/icons-material";
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 export const Navbar = () => {
+  const navigate = useNavigate();
+  const [searchedItem,setSearchedItem] = useState("")
+
+  const handleSearchItemInput = (e)=>{
+    setSearchedItem(e.target.value)
+  }
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    navigate("/games", {
+      state: {
+        searchQuery: searchedItem,
+      },
+    });
+  };
+
+  const handleKey = (e)=>{
+    if(e.key === "Enter"){
+      handleSearch(e)
+    }
+  }
+
   return (
     <div className="navbarContainer h-20">
       <div className="left">
@@ -24,14 +46,16 @@ export const Navbar = () => {
         </div>
       </div>
       <div className="center">
-        <div className="searchBarWrapper">
-          <Search className="searchIcon" />
-          <input
-            type="text"
-            className="searchBar"
-            placeholder="search for your games"
-          />
-        </div>
+          <form className="searchBarWrapper" onSubmit={handleSearch}>
+            <Search className="searchIcon" onClick={handleSearch}/>
+            <input
+              type="text"
+              className="searchBar"
+              placeholder="search for your games"
+              onKeyUp={handleKey}
+              onChange={handleSearchItemInput}
+            />
+          </form>
       </div>
       <div className="right">
         <div className="navBarItemWrapper">

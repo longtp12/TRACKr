@@ -5,7 +5,7 @@ import { Chart as ChartJS } from "chart.js/auto";
 export const PriceChart = ({ chartData }) => {
   const convertDate = (timeStamp) => {
     const date = new Date(timeStamp);
-    const formattedDate = date.toLocaleDateString();
+    const formattedDate = date.toLocaleDateString("vi-VN");
     return formattedDate;
   };
   const dates = chartData.map((data) => data.timeStamp)

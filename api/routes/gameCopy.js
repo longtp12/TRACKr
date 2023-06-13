@@ -3,6 +3,7 @@ import {
   addGameCopies,
   deleteGameCopies,
   deleteGameCopy,
+  filterPrice,
   getGameCopies,
   searchGameCopiesByName,
   searchGameCopiesByStore,
@@ -29,5 +30,7 @@ router.delete("/", deleteGameCopies);
 router.delete("/:id", deleteGameCopy);
 
 router.put("/:id", updatePrice);
+
+router.post("/filterPrice", filterPrice)
 
 export default router;

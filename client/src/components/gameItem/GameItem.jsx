@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./gameItem.scss";
 import { formatPrice, formatReleaseDate } from "../../utils/formatStrings";
 import { platformIcons } from "../../utils/platformIcons";
-import { publicRequest } from "../../requestMethods";
+import { publicRequest } from "../../utils/requestMethods";
 import { Link } from "react-router-dom";
-import Skeleton from "react-loading-skeleton";
 
 export const GameItem = ({ gameData }) => {
   const [gameCopies, setGameCopies] = useState([]);

@@ -2,7 +2,7 @@ import { request } from "./requestMethod.js";
 import puppeteer from "puppeteer";
 import j2cp from "json2csv"
 import fs from "fs";
-import { uploadToDB } from "./scrapeWebstoreType1.js";
+import { uploadToDB, uploadToDBAnyway } from "./scrapeWebstoreType1.js";
 
 const launchBrowser = async (stores) => {
   // const browser = await puppeteer.launch({ headless: false });
@@ -107,7 +107,8 @@ const scrapeOneUrlType2 = async (page, store, url, platform) => {
 
       //   UPLOAD TO DB
 
-      await uploadToDB(games)
+      // await uploadToDB(games)
+      await uploadToDBAnyway(games)
 
       const nextButton = await page.$(store.nextPageSelector);
 

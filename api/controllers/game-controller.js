@@ -1,4 +1,5 @@
 import Game from "../models/Game.js";
+import { publicRequest } from "../utils/requestMethod.js";
 
 export const addGames = async (req, res) => {
   const gamesData = req.body.games;
@@ -34,6 +35,75 @@ export const searchGameByName = async (req, res) => {
     });
 
     res.status(200).json(game);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+export const searchGame = async (req, res) => {
+  const { searchQuery } = req.body;
+  const page = parseInt(req.query.page);
+  const gamesPerPage = parseInt(req.query.gamesPerPage);
+  try {
+    const skipCount = (page - 1) * gamesPerPage;
+    const games = await Game.find({
+      $or: [
+        { title: { $regex: new RegExp(searchQuery, "i") } },
+        { platforms: { $regex: new RegExp(searchQuery, "i") } },
+        { genres: { $regex: new RegExp(searchQuery, "i") } },
+        { publishers: { $regex: new RegExp(searchQuery, "i") } },
+        { developers: { $regex: new RegExp(searchQuery, "i") } },
+      ],
+    })
+      .skip(skipCount)
+      .limit(gamesPerPage);
+
+    res.status(200).json(games);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+export const gameFilter = async (req, res) => {
+  const { platforms, genres, price } = req.body;
+  const page = parseInt(req.query.page);
+  const gamesPerPage = parseInt(req.query.gamesPerPage);
+  try {
+    const skipCount = (page - 1) * gamesPerPage;
+
+    let query = {};
+
+    if (platforms && platforms.length > 0) {
+      query.platforms = { $all: platforms };
+    }
+    if (genres && genres.length > 0) {
+      query.genres = { $all: genres };
+    }
+
+    let games;
+
+    if (Object.keys(query).length > 0) {
+      games = await Game.find(query).skip(skipCount).limit(gamesPerPage);
+    } else {
+      games = await Game.find().skip(skipCount).limit(gamesPerPage);
+    }
+    if (price) {
+      const filteredGames = [];
+      for (const game of games) {
+        const filterPriceRes = await publicRequest.post(
+          "/gameCopy/filterPrice?condition=" + price,
+          { title: game.title }
+        );
+
+        if (filterPriceRes.data.message === true) {
+          filteredGames.push(game);
+        }
+      }
+
+      games = filteredGames;
+    }
+
+    res.status(200).json(games);
   } catch (error) {
     res.status(500).json(error);
   }
